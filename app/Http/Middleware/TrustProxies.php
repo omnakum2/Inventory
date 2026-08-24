@@ -10,9 +10,13 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
+     * '*' trusts the platform load balancer (Render/Heroku/etc.) so Laravel
+     * detects HTTPS via X-Forwarded-Proto. Without this, route()/url() emit
+     * http:// links behind the proxy and form POSTs break on an https page.
+     *
      * @var array<int, string>|string|null
      */
-    protected $proxies;
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.

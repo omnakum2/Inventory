@@ -41,11 +41,6 @@
             </a>
             @endif
         </div>
-        <!-- <div class="col text-end">
-            <a class="text-decoration-none" href="{{ route('auth.register') }}">
-                <span class="text-muted">New User</span> {{ __('Register') }}
-            </a>
-        </div> -->
     </div>
 </form>
 

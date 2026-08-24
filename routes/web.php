@@ -19,11 +19,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/auth/register', function () {
-    return view('auth.register');
-})->name('auth.register');
-
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::post('/getfill', [InvoiceController::class, 'getFill']);
 Route::post('/getdata', [InvoiceController::class, 'getData']);
