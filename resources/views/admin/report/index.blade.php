@@ -27,7 +27,7 @@
             <thead>
                 <tr>
                     <th class="text-center">Month / Year</th>
-                    <th class="text-center">Amount</th>
+                    <th class="text-center">Total Sales (₹)</th>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -56,7 +56,7 @@
                     $('#reportTable tbody').empty();
 
                     $.each(response.data, function(index, item) {
-                        $('#reportTable tbody').append('<tr><td>' + item.value + '</td><td>' + item.total_amount + '</td></tr>');
+                        $('#reportTable tbody').append('<tr><td>' + item.value + '</td><td>₹ ' + item.total_amount + '</td></tr>');
                     });
                 },
                 error: function(xhr, status, error) {

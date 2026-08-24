@@ -21,6 +21,17 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
+// Framework default "home" target (RouteServiceProvider::HOME = '/home').
+// This app has no single home page, so route users to the dashboard that
+// matches their role instead of returning a 404.
+Route::get('/home', function () {
+    if (! auth()->check()) {
+        return redirect('/');
+    }
+
+    return redirect(auth()->user()->role_as == 1 ? 'admin/dashboard' : 'staff/dashboard');
+})->name('home');
+
 Route::post('/getfill', [InvoiceController::class, 'getFill']);
 Route::post('/getdata', [InvoiceController::class, 'getData']);
 
