@@ -8,20 +8,63 @@
 
     <title>IMS</title>
     <link href="{{ asset('assets/img/logo.jpg') }}" rel="icon" class="rounded-circle">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}">
     <style>
+        /* Dark charcoal, grayscale treatment of the background image (matches admin panel) */
         body {
-            background-image: url('/assets/img/bg.png');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;
+            background-color: #23272b;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url('/assets/img/bg.png') center / cover no-repeat;
+            filter: grayscale(1) brightness(0.35) contrast(1.05);
+            z-index: -1;
         }
 
         .container {
             margin-top: 7rem;
         }
+
+        /* Auth forms -> admin dark/charcoal theme (replaces bootstrap blue) */
+        .btn-primary {
+            background-color: #36454f;
+            border-color: #36454f;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:active,
+        .btn-primary:first-child:active {
+            background-color: #2b3740;
+            border-color: #2b3740;
+        }
+
+        .btn-primary:focus,
+        .btn-primary:focus-visible {
+            background-color: #2b3740;
+            border-color: #2b3740;
+            box-shadow: 0 0 0 0.2rem rgba(54, 69, 79, 0.4);
+        }
+
+        .form-control:focus {
+            border-color: #36454f;
+            box-shadow: 0 0 0 0.2rem rgba(54, 69, 79, 0.25);
+        }
+
+        a.text-decoration-none,
+        .btn-link {
+            color: #36454f;
+        }
+
+        a.text-decoration-none:hover,
+        .btn-link:hover {
+            color: #212529;
+        }
     </style>
-    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}">
 </head>
 
 <body class="font-sans antialiased">
