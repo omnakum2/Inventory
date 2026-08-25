@@ -50,14 +50,14 @@ class ProductController extends Controller
         // ->join('category','category.id','=','product.category_id')
         // ->first();
         //dd($product);
-        $product = Product::where('id', $id)->first();
+        $product = Product::findOrFail($id);
         return view('admin.product.detail',compact('product'));
     }
     public function edit($id)
     {
         $categories = Category::all();
         $brands = Brand::all();
-        $product = Product::where('id', $id)->first();
+        $product = Product::findOrFail($id);
         //dd($categories);
         return view('admin.product.edit',compact('product','categories', 'brands'));
     }
@@ -71,7 +71,7 @@ class ProductController extends Controller
             "price" => "required",
         ]);
 
-        $product = Product::where('id', $id)->first();
+        $product = Product::findOrFail($id);
         $product->code = $request->code;
         $product->name = $request->name;
         $product->description = $request->description;
@@ -83,13 +83,16 @@ class ProductController extends Controller
     }
     public function delete($id)
     {
-        $product = Product::where('id', $id)->first();
+        $product = Product::findOrFail($id);
+        if (DB::table('stock')->where('product_code', $product->code)->exists()) {
+            return redirect('admin/product')->with('msg', 'Cannot delete: product has stock entries.');
+        }
         $product->delete();
         return redirect('admin/product')->with('msg','Product Deleted');
     }
     public function toggle($id)
     {
-        $product = Product::where('id', $id)->first();
+        $product = Product::findOrFail($id);
         if($product->status == 1){
             $product->status = 0;
             $product->save();

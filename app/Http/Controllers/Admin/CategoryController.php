@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -32,7 +33,7 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
-        $category = Category::where('id', $id)->first();
+        $category = Category::findOrFail($id);
         return view('admin.category.edit',["category"=> $category]);
     }
 
@@ -42,7 +43,7 @@ class CategoryController extends Controller
             "name" => "required",
         ]);
 
-        $category = Category::where('id', $id)->first();
+        $category = Category::findOrFail($id);
         $category->category_name = $request->name;
         $category->save();
         return redirect('admin/category')->with('msg','Category Updated!!!');
@@ -50,14 +51,17 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
-        $category = Category::where('id', $id)->first();
+        $category = Category::findOrFail($id);
+        if (DB::table('product')->where('category_id', $id)->exists()) {
+            return redirect('admin/category')->with('msg', 'Cannot delete: category is in use by products.');
+        }
         $category->delete();
         return redirect('admin/category')->with('msg','Category Deleted');
     }
 
     public function toggle($id)
     {
-        $category = Category::where('id', $id)->first();
+        $category = Category::findOrFail($id);
         if($category->status == 1){
             $category->status = 0;
             $category->save();

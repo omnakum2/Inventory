@@ -46,7 +46,7 @@ class StockController extends Controller
     {
         $product = Product::all();
         $wharehouse = Wharehouse::all();
-        $stock = Stock::where('id', $id)->first();
+        $stock = Stock::findOrFail($id);
         //dd($wharehouse);
         return view('admin.stock.edit',["stock"=> $stock],compact('product','wharehouse'));
     }
@@ -59,7 +59,7 @@ class StockController extends Controller
             "product_code" => "required",
         ]);
 
-        $stock = Stock::where('id', $id)->first();
+        $stock = Stock::findOrFail($id);
         $stock->quantity = $request->quantity;
         $stock->wharehouse_id = $request->wharehouse;
         $stock->product_code = $request->product_code;
@@ -69,7 +69,7 @@ class StockController extends Controller
 
     public function delete($id)
     {
-        $stock = Stock::where('id', $id)->first();
+        $stock = Stock::findOrFail($id);
         $stock->delete();
         return redirect('admin/stock')->with('msg','Stock Deleted');
     }

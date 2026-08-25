@@ -14,14 +14,14 @@ class stock extends Model
     protected $fillable = [
         "quantity",
         "wharehouse_id",
-        "prouct_code",
+        "product_code",
     ] ;
 
     protected function wharehouse(){
-        return $this->belongsTo(Wharehouse::class, 'wharehouse_id', 'id');
+        return $this->belongsTo(wharehouse::class, 'wharehouse_id', 'id');
     }
 
     protected function product(){
-        return $this->belongsTo(Product::class, 'product_code', 'code');
+        return $this->belongsTo(product::class, 'product_code', 'code');
     }
 }

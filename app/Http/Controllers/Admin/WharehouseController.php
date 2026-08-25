@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\wharehouse;
+use Illuminate\Support\Facades\DB;
 
 class WharehouseController extends Controller
 {
@@ -32,7 +33,7 @@ class WharehouseController extends Controller
 
     public function edit($id)
     {
-        $wharehouse = Wharehouse::where('id', $id)->first();
+        $wharehouse = Wharehouse::findOrFail($id);
         return view('admin.wharehouse.edit',["wharehouse"=> $wharehouse]);
     }
 
@@ -42,7 +43,7 @@ class WharehouseController extends Controller
             "name" => "required",
         ]);
 
-        $wharehouse = Wharehouse::where('id', $id)->first();
+        $wharehouse = Wharehouse::findOrFail($id);
         $wharehouse->name = $request->name;
         $wharehouse->save();
         return redirect('admin/wharehouse')->with('msg','Wharehouse Updated!!!');
@@ -50,14 +51,17 @@ class WharehouseController extends Controller
 
     public function delete($id)
     {
-        $wharehouse = Wharehouse::where('id', $id)->first();
+        $wharehouse = Wharehouse::findOrFail($id);
+        if (DB::table('stock')->where('wharehouse_id', $id)->exists()) {
+            return redirect('admin/wharehouse')->with('msg', 'Cannot delete: warehouse has stock entries.');
+        }
         $wharehouse->delete();
         return redirect('admin/wharehouse')->with('msg','Wharehouse Deleted');
     }
 
     public function toggle($id)
     {
-        $wharehouse = Wharehouse::where('id', $id)->first();
+        $wharehouse = Wharehouse::findOrFail($id);
         if($wharehouse->status == 1){
             $wharehouse->status = 0;
             $wharehouse->save();
